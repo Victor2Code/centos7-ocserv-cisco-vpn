@@ -16,4 +16,8 @@
 * centos7机器初始化
 
   1. 在vmware ESXI主机里面起一台linux虚拟机，iso镜像采用官网下载的centos7 minimum版本。选择虚拟机port group的时候注意选择符合要求vlan的group，如果没有就要考虑新起一个port group并且指定vlan，不过前提条件是ESXI机器的真实物理网卡上行连接的trunk口要包括该vlan。
-  2. 参考https://github.com/Victor2Code/centos7 对centos7进行简单的初始化，主要包括
+  2. 参考https://github.com/Victor2Code/centos7 对centos7进行简单的初始化，主要包括关闭firewalld.service并且启用iptables，关闭selinux，同时下载一些常用工具。
+  
+* ocser一键安装脚本
+
+  1. 采用网上找到的一键安装脚本（出处：http://www.baerk.com/148.html ）进行安装即可。
