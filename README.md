@@ -41,5 +41,32 @@
       * 用于登录VPN的用户名和密码，直接回车用户名user，密码随机生成10位数字大小写字母组合
   3. 安装过程中完成了下面操作：
   
-      * 
+      * 安装软件依赖包
+      * 下载ocserv并编译安装
+      * 复制ocserv.service到/usr/lib/systemd/system创建系统服务
+      `systemctl daemon-reload`
+      * 创建一个初始用户（默认用户名为user）以及密码
+      * 优化ocserv配置文件，配置自定义的监听端口，路由规则以及DNS等信息
+      * iptables打开监听端口，允许从IP池的forward，同时配置从IP池到物理网卡的MASQUERADE
+      ```bash
+      iptables -I INPUT -p tcp --dport 10443 -j ACCEPT
+      iptables -I INPUT -p udp --dport 10443 -j ACCEPT
+      iptables -A FORWARD -s 10.10.1.0/24 -j ACCEPT
+      iptables -t nat -A POSTROUTING -s 10.10.1.0/24 -o xxx -j MASQUERADE
+      ```
+      * 关闭selinux
+      ```bash
+      sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+      setenforce 0
+      ```
+      * 允许ip forwarding
+      ```bash
+      sysctl -w net.ipv4.ip_forward=1
+      echo net.ipv4.ip_forward = 1 >> "/etc/sysctl.conf"
+      ```
+      * 启动ocserv服务并允许开机启动
+      ```bash
+      systemctl start ocserv.service
+      systemctl enable ocserv.service
+      ```
   
