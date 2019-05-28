@@ -69,4 +69,17 @@
       systemctl start ocserv.service
       systemctl enable ocserv.service
       ```
+* 防火墙设置
+
+  1. 端口映射从1.1.1.1:6666到192.168.1.2:10443的NAT规则打开
+  2. 从外网到内网192.168.1.2的规则要放开
+* 检验安装结果
   
+  1. 内网`telnet 192.168.1.2 10443`查看服务是否有在监听，如果上述安装过程没有报错基本都可以telnet到。
+  2. 外网`telnet 1.1.1.1 6666`查看外网到内网的端口映射是否生效，如果失败检查上面的“防火墙设置”。
+  3. Anyconnect客户端访问1.1.1.1:6666并且输入创建的用户名和密码查看是否成功连接。
+  4. 连接成功以后查看本地的路由规则是否和配置文件一致，访问对应网站是否成功。
+* 后续维护
+  1. 配置文件位置为`/usr/local/etc/ocserv/ocserv.conf`，修改以后需要`systemctl restart ocserv`去重启ocserv使配置生效。主要涉及的修改就是路由规则添加或者修改。
+  2. 添加用户`ocpasswd -c /usr/local/etc/ocserv/ocpasswd username`。
+  3. 删除用户，修改`/usr/local/etc/ocserv/ocpasswd`文件，删除用户所在的那一行即可。
