@@ -83,3 +83,4 @@
   1. 配置文件位置为`/usr/local/etc/ocserv/ocserv.conf`，修改以后需要`systemctl restart ocserv`去重启ocserv使配置生效。主要涉及的修改就是路由规则添加或者修改。
   2. 添加用户`ocpasswd -c /usr/local/etc/ocserv/ocpasswd username`。
   3. 删除用户，修改`/usr/local/etc/ocserv/ocpasswd`文件，删除用户所在的那一行即可。
+  4. 日志查询`journalctl -u ocserv -f`
